@@ -1,25 +1,19 @@
 
-//Require dotenv npm to link Spotify keys file
 require("dotenv").config();
 
-//Require keys.js file
 var keys = require("./keys.js");
 
-//Require request npm
-var request = require("request");
-
-//Require spotify npm
 var Spotify = require('node-spotify-api');
-//Save spotify key to a variable
 var spotify = new Spotify(keys.spotify);
 
-//Require moment npm
 var moment = require('moment');
 moment().format();
 
 var fs = require("fs");
 
 var axios = require("axios");
+
+
 
 
 var command = process.argv[2];
@@ -36,34 +30,6 @@ if (command === "concert-this"){
             console.log("Date: " + date);
             }
         )
-} else if (command === "spotify-this-song"){
-// spotify-this-song
-// Client ID 17a130fd2d5f469eb57bb6d19f38b703
-// Client Secret 4bdd51d0fc5c4c4ca47bf4625ec60e9b
-// in terminal: node liri.js spotify-this-song '<song name here>'
-// console log: Artist(s), The song's name, A preview link of the song from Spotify, The album that the song is from
-// If no song is provided then your program will default to "The Sign" by Ace of Base.
-    if (!process.argv[3]){
-        spotify
-        .search({ type: 'track', query: 'The Sign Ace of Base', limit: 1 })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(err) {
-            console.log(err);
-        })
-    } else {
-        var track = process.argv.slice(3);
-        var song = track.join("+");
-        spotify
-        .search({ type: 'track', query: song, limit: 1 })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-    }
 } else if (command === "movie-this"){
     if (!process.argv[3]){
         axios.get("http://www.omdbapi.com/?t=Mr.+Nobody&y=&plot=short&apikey=trilogy").then(
@@ -92,6 +58,33 @@ if (command === "concert-this"){
             console.log("Plot: " + response.data.Plot);
             console.log("Actors: " + response.data.Actors);
         })
+    } 
+} else if (command === "spotify-this-song"){
+    if (!process.argv[3]){
+        spotify
+        .search({ type: 'track', query: 'The Sign Ace of Base', limit: 1 })
+        .then(function(response) {
+            console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
+            console.log("Song: " + response.tracks.items[0].name);
+            console.log("Album: " + response.tracks.items[0].album.name);
+            console.log("Snippet: " + response.tracks.items[0].preview_url);
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+    } else {
+        var song = String(process.argv.slice(3));
+        spotify
+        .search({ type: 'track', query: song, limit: 1 })
+        .then(function(response) {
+            console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
+            console.log("Song: " + response.tracks.items[0].name);
+            console.log("Album: " + response.tracks.items[0].album.name);
+            console.log("Snippet: " + response.tracks.items[0].preview_url);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
     }
 } else if (command === "do-what-it-says"){
 // do-what-it-says
