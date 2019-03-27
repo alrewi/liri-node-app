@@ -1,0 +1,16 @@
+concert-this,drake
+  works
+concert-this,little dragon
+  works
+movie-this,
+  no
+movie-this,avengers
+  works
+movie-this,big daddy
+  works
+spotify-this-song,
+  no
+spotify-this-song,passionfruit
+  works
+spotify-this-song,pour some sugar on me
+  works

@@ -98,12 +98,14 @@ function goLiri () {
                 return console.log(error);
             } else {
                 var dataArr = data.split(",");
-                command = dataArr[0];
-                query = dataArr[1];
-                if (command === "concert-this"){
-                    var query = process.argv.slice(3);
-                    var modifiedQuery = query.join("+");
-                    var queryUrl = "https://rest.bandsintown.com/artists/" + modifiedQuery + "/events?app_id=codingbootcamp";
+                var newCommand = dataArr[0];
+                var newQuery = dataArr[1].split(" ");
+                console.log(newCommand, newQuery);
+                if (newCommand === "concert-this"){
+                    var newModifiedQuery = newQuery.join("+");
+                    console.log(newModifiedQuery);
+                    var queryUrl = "https://rest.bandsintown.com/artists/" + newModifiedQuery + "/events?app_id=codingbootcamp";
+                    console.log(queryUrl);
                     axios.get(queryUrl).then(
                         function(response){
                             console.log("Venue: " + response.data[0].venue.name);
@@ -113,25 +115,25 @@ function goLiri () {
                         }).catch(function(error) {
                               console.log(error);
                         })
-                } else if (command === "movie-this"){
-                    if (!process.argv[3]){
-                        axios.get("http://www.omdbapi.com/?t=Mr.+Nobody&y=&plot=short&apikey=trilogy").then(
-                            function(response){
-                                console.log("Title: " + response.data.Title);
-                                console.log("Released in: " + response.data.Year);
-                                console.log("IMDB rating: " + response.data.Ratings[0].Value);
-                                console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value);
-                                console.log("Country: " + response.data.Country);
-                                console.log("Language: " + response.data.Language);
-                                console.log("Plot: " + response.data.Plot);
-                                console.log("Actors: " + response.data.Actors);
-                        }).catch(function(error) {
-                              console.log(error);
-                        })
-                    } else {
-                        var query = process.argv.slice(3);
-                        var modifiedQuery = query.join("+");
-                        var queryUrl = "http://www.omdbapi.com/?t=" + modifiedQuery + "&y=&plot=short&apikey=trilogy";
+                } else if (newCommand === "movie-this"){
+                    // if (!newQuery){
+                    //     axios.get("http://www.omdbapi.com/?t=Mr.+Nobody&y=&plot=short&apikey=trilogy").then(
+                    //         function(response){
+                    //             console.log("Title: " + response.data.Title);
+                    //             console.log("Released in: " + response.data.Year);
+                    //             console.log("IMDB rating: " + response.data.Ratings[0].Value);
+                    //             console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value);
+                    //             console.log("Country: " + response.data.Country);
+                    //             console.log("Language: " + response.data.Language);
+                    //             console.log("Plot: " + response.data.Plot);
+                    //             console.log("Actors: " + response.data.Actors);
+                    //     }).catch(function(error) {
+                    //           console.log(error);
+                    //     })
+                    // } else {
+                        var newModifiedQuery = newQuery.join("+");
+                        console.log(newModifiedQuery);
+                        var queryUrl = "http://www.omdbapi.com/?t=" + newModifiedQuery + "&y=&plot=short&apikey=trilogy";
                         axios.get(queryUrl).then(
                             function(response){
                                 console.log("Title: " + response.data.Title);
@@ -145,34 +147,32 @@ function goLiri () {
                         }).catch(function(error) {
                               console.log(error);
                         })
-                    }
-                } else if (command === "spotify-this-song"){
-                    if (!process.argv[3]){
-                        spotify
-                        .search({ type: 'track', query: 'The Sign Ace of Base', limit: 1 })
-                        .then(function(response) {
-                            console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
-                            console.log("Song: " + response.tracks.items[0].name);
-                            console.log("Album: " + response.tracks.items[0].album.name);
-                            console.log("Snippet: " + response.tracks.items[0].preview_url);
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        })
-                    } else {
-                        var query = String(process.argv.slice(3));
-                        spotify
-                        .search({ type: 'track', query: query, limit: 1 })
-                        .then(function(response) {
-                            console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
-                            console.log("Song: " + response.tracks.items[0].name);
-                            console.log("Album: " + response.tracks.items[0].album.name);
-                            console.log("Snippet: " + response.tracks.items[0].preview_url);
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        });
-                    }
+                  } else if (newCommand === "spotify-this-song"){
+                        if (!newQuery){
+                            spotify
+                            .search({ type: 'track', query: 'The Sign Ace of Base', limit: 1 })
+                            .then(function(response) {
+                                console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
+                                console.log("Song: " + response.tracks.items[0].name);
+                                console.log("Album: " + response.tracks.items[0].album.name);
+                                console.log("Snippet: " + response.tracks.items[0].preview_url);
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            })
+                        } else {
+                            spotify
+                            .search({ type: 'track', query: newQuery, limit: 1 })
+                            .then(function(response) {
+                                console.log("Artist(s): " + response.tracks.items[0].album.artists[0].name);
+                                console.log("Song: " + response.tracks.items[0].name);
+                                console.log("Album: " + response.tracks.items[0].album.name);
+                                console.log("Snippet: " + response.tracks.items[0].preview_url);
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        }
                 }
             }
         })
