@@ -4,7 +4,7 @@ LIRI is a CLI Node.js app that allows users to look up concerts, movies and song
 
 To use LIRI, open your command line 
 
-![liri-1](liri-node-app/images/liri-1.png)
+![liri-1](/images/liri-1.png)
 
 and enter 
     node liri.js 
@@ -12,6 +12,7 @@ and enter
 ![liri-2]()
 
 followed by one of these commands:
+
     1. concert-this band
     
     ![concert-1]()
